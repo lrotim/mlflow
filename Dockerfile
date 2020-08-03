@@ -1,6 +1,6 @@
 FROM python:3.7-slim
 
-RUN python -m pip install mlflow==1.9.1 boto3==1.12.25 psycopg2-binary==2.8.4
+RUN python -m pip install mlflow==1.10.0 boto3==1.12.25 psycopg2-binary==2.8.4
 
 ADD ./s3_artifact_repo_patch.py /s3_artifact_repo.py
 

@@ -63,6 +63,12 @@ class S3ArtifactRepository(ArtifactRepository):
         infos = []
         prefix = dest_path + "/" if dest_path else ""
         s3_client = self._get_s3_client()
+        
+        list_metadata = s3_client.list_objects_v2(Bucket=bucket, Prefix=dest_path, MaxKeys=1)
+        contents = list_metadata.get('Contents', [])
+        if len(contents) == 1 and contents[0].get('Key') == dest_path:
+            return []
+        
         paginator = s3_client.get_paginator("list_objects_v2")
         results = paginator.paginate(Bucket=bucket, Prefix=prefix, Delimiter='/')
         for result in results:
